@@ -17,7 +17,7 @@ export const profile: Profile = {
   ],
   skills: ['TypeScript', 'C#', 'Python', 'Unity', 'Vue', 'Svelte'],
   favorites:
-    'Rhythm games (maimai DX, Taiko), FFXIV, Arknights, Wuthering Waves and Touhou.',
+    'Taiko no Tatsujin, Project Sekai, FFXIV, Arknights, Wuthering Waves and Touhou.',
   email: 'barry.yang.us@outlook.com',
   socials: [
     { label: 'Instagram', url: 'https://www.instagram.com/kirisamevanilla/' },
