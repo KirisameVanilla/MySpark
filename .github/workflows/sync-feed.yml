@@ -1,5 +1,5 @@
 name: Sync social feed
-# Pulls Instagram posts into public/feed (see README).
+# Pulls Instagram and original X posts into public/feed (see README).
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
-    paths: ['content/manual-posts.json']
+    paths: ['content/manual-posts.json', 'scripts/**', '.github/workflows/sync-feed.yml', 'package.json', 'package-lock.json']
 
 permissions:
   contents: write
@@ -19,6 +19,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -26,9 +27,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run sync-feed
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          TWITTER_COOKIES: ${{ secrets.TWITTER_COOKIES }}
+          X_USERNAME: ${{ vars.X_USERNAME }}
 
       # Instagram returns a new token string on every refresh. Store it so the
       # secret never reaches its 60-day expiry. Needs a GH_PAT secret (see README).

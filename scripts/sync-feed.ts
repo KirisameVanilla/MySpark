@@ -11,6 +11,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { fetchX } from './x-feed.ts'
 import type { FeedFile, FeedPost, FeedSource } from '../src/types.ts'
 
 // Local runs read secrets from .env.local (git-ignored); CI passes them as env vars.
@@ -70,7 +71,7 @@ async function fetchInstagram(): Promise<FeedPost[]> {
 
   const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp'
   const res = await fetch(`${IG}/me/media?fields=${fields}&limit=${MAX_POSTS}&access_token=${token}`)
-  if (!res.ok) throw new Error(`media request failed: ${res.status} ${await res.text()}`)
+  if (!res.ok) throw new Error(`media request failed: ${res.status}`)
   const { data } = (await res.json()) as { data: IgMedia[] }
 
   const posts: FeedPost[] = []
@@ -92,6 +93,7 @@ async function fetchInstagram(): Promise<FeedPost[]> {
 // Each fetcher returns FeedPost[] for one source. Register it below.
 const sources: Partial<Record<FeedSource, () => Promise<FeedPost[]>>> = {
   Instagram: fetchInstagram,
+  X: () => fetchX(saveImage),
   // Bilibili has no official API for this and its web API blocks scripts, so
   // Bilibili posts are listed by hand in content/manual-posts.json instead.
 }
@@ -103,7 +105,7 @@ async function saveImage(name: string, url: string): Promise<string | undefined>
   const publicPath = `/feed/images/${name}.jpg`
   if (existsSync(file)) return publicPath // already downloaded on an earlier run
   try {
-    const res = await fetch(url)
+    const res = await fetch(url, { signal: AbortSignal.timeout(30_000) })
     if (!res.ok) throw new Error(String(res.status))
     await writeFile(file, Buffer.from(await res.arrayBuffer()))
     return publicPath
@@ -142,7 +144,8 @@ async function main() {
       merged.push(...posts)
       anyOk = true
     } catch (e) {
-      console.error(`[${source}] failed, keeping previous posts: ${(e as Error).message}`)
+      console.error(`[${source}] failed, keeping previous posts${source === 'X' ? '' : `: ${(e as Error).message}`}`)
+      if (process.env.GITHUB_ACTIONS) console.warn(`::warning::${source} sync failed; previous posts retained. Check credentials and service availability.`)
       merged.push(...prev.posts.filter((p) => p.source === source))
     }
   }
@@ -156,9 +159,11 @@ async function main() {
   }
 
   merged.sort((a, b) => b.date.localeCompare(a.date))
+  const posts = merged.slice(0, MAX_POSTS)
+  const changed = JSON.stringify(posts) !== JSON.stringify(prev.posts)
   const out: FeedFile = {
-    updatedAt: anyOk ? new Date().toISOString() : prev.updatedAt,
-    posts: merged.slice(0, MAX_POSTS),
+    updatedAt: anyOk && changed ? new Date().toISOString() : prev.updatedAt,
+    posts,
   }
   await writeFile(FEED_PATH, JSON.stringify(out, null, 2) + '\n')
   console.log(`wrote ${out.posts.length} posts to ${path.relative(process.cwd(), FEED_PATH)}`)

@@ -67,3 +67,30 @@ Platforms with a real API can get a fetcher in `scripts/sync-feed.ts` (see the `
 ## Deploy
 
 Any static host works. On Vercel or Cloudflare Pages: build command `npm run build`, output `dist`.
+
+### X / Twitter (original posts only)
+
+The same scheduled workflow also reads `@spark_barry`'s latest personal timeline
+using `@the-convocation/twitter-scraper@0.22.3`, the library used by Twitter-Scraper.
+It scans up to 100 timeline entries, excludes replies and reposts, verifies the
+post's author, and keeps quote posts. The first photo is copied into the static
+feed; videos and additional photos are available through the original-post link.
+The combined feed retains its existing 60-post limit across all platforms.
+
+GitHub repository → Settings → Secrets and variables → Actions:
+
+- Add the **secret** `TWITTER_COOKIES`: paste your logged-in X cookie header
+  (`auth_token=...; ct0=...`) or an exported JSON cookie array. Never commit it.
+- Optionally add the **variable** `X_USERNAME` to override `spark_barry`.
+- Open Actions → **Sync social feed** → **Run workflow** for the first sync.
+
+The existing schedule runs every six hours and commits the generated public
+feed and images. Cookie expiry, rate limits, or an X request failure preserve the
+previous X snapshot and produce an Actions warning. Refresh `TWITTER_COOKIES`
+when needed. A successful source can still publish when another source fails.
+This uses X's undocumented web API; GitHub-hosted runners may be blocked by X,
+and X restricts non-official automation. No live success is guaranteed by a build.
+
+For a local run, add `TWITTER_COOKIES` (and optionally `X_USERNAME`) to the ignored
+`.env.local`, then run `npm run sync-feed`. Only public post data is written into
+`public/feed`; cookies stay in the server-side sync process.

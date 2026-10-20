@@ -8,13 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "sync-feed": "tsx scripts/sync-feed.ts"
+    "sync-feed": "tsx scripts/sync-feed.ts",
+    "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@the-convocation/twitter-scraper": "0.22.3",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
