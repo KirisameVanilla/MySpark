@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import { profile } from '../data/site'
 import type { TabId } from '../types'
 import { TABS, tabHref } from '../useHashTab'
-import { DrumBuddy } from './Art'
+import { Drum, FaceNote, type NoteKind } from './Lane'
 
-// The navigation is a Taiko note lane: each section is a don (red) or ka (blue) note.
-const NOTE_KIND: Record<TabId, 'don' | 'ka'> = {
+// Each section is a note on the lane. Big notes mark the current page, like 大音符.
+const NOTE_KIND: Record<TabId, NoteKind> = {
   home: 'don',
   profile: 'ka',
   resume: 'don',
@@ -12,33 +13,52 @@ const NOTE_KIND: Record<TabId, 'don' | 'ka'> = {
   feed: 'don',
 }
 
+// Laid out like OurTaikoPlay's play screen: festival strip with the "song title",
+// then the player panel (nameplate + drum) beside the note lane and its label rail.
 export function Header({ tab }: { tab: TabId }) {
+  const [hover, setHover] = useState<NoteKind | null>(null)
+  const current = TABS.find((t) => t.id === tab)!
+
   return (
-    <header className="site-header">
-      <div className="container top">
+    <header className="play-header">
+      <div className="festival">
         <a className="brand" href="#/">
           <strong>{profile.handle}</strong>
           <span>Rhythm &amp; Magic</span>
         </a>
-        <span className="hint" aria-hidden="true">Tap a note to jump ♪</span>
+        <p className="song-title" aria-hidden="true">{current.title}</p>
       </div>
-      <nav className="container lane-wrap" aria-label="Site sections">
-        <div className="lane">
-          <div className="judge">
-            <DrumBuddy className="bob" mood={NOTE_KIND[tab] === 'don' ? 'happy' : 'wink'} color={NOTE_KIND[tab] === 'don' ? '#F2542D' : '#3FB8D6'} />
+
+      <nav className="playfield" aria-label="Site sections">
+        <div className="player">
+          <div className="plate">
+            <span className="tag">1P</span>
+            <span className="who">{profile.nickname}</span>
           </div>
-          <div className="notes">
-            {TABS.map((t) => (
-              <a
-                key={t.id}
-                className={`note ${NOTE_KIND[t.id]}`}
-                href={tabHref(t.id)}
-                aria-current={tab === t.id ? 'page' : undefined}
-              >
-                <span className="head" aria-hidden="true">{NOTE_KIND[t.id] === 'don' ? 'ドン' : 'カッ'}</span>
-                <span className="label">{t.label}</span>
-              </a>
-            ))}
+          <Drum hit={hover ?? NOTE_KIND[tab]} />
+        </div>
+
+        <div className="lane">
+          <div className="track">
+            <span className="judge" aria-hidden="true" />
+            {TABS.map((t) => {
+              const on = t.id === tab
+              return (
+                <a
+                  key={t.id}
+                  className={on ? 'lane-note big' : 'lane-note'}
+                  href={tabHref(t.id)}
+                  aria-current={on ? 'page' : undefined}
+                  onMouseEnter={() => setHover(NOTE_KIND[t.id])}
+                  onMouseLeave={() => setHover(null)}
+                  onFocus={() => setHover(NOTE_KIND[t.id])}
+                  onBlur={() => setHover(null)}
+                >
+                  <span className="disc"><FaceNote kind={NOTE_KIND[t.id]} size={on ? 84 : 60} /></span>
+                  <span className="lane-label">{t.label}</span>
+                </a>
+              )
+            })}
           </div>
         </div>
       </nav>

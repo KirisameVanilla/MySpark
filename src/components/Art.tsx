@@ -1,42 +1,9 @@
 // Original fan-drawn motifs (not official art):
-//  - DrumBuddy: a Taiko drum mascot in the spirit of Don-chan
 //  - Star, MagicCircle, Hakkero: Marisa's star bullets, magic circle and mini-hakkero
 //  - SpiderLily, GlassShards: Phrolova's red spider lilies and shattered glass
 import type { CSSProperties } from 'react'
 
 const INK = '#1E1726'
-
-type Mood = 'happy' | 'wink' | 'grin'
-
-export function DrumBuddy({ size = 70, color = '#F2542D', mood = 'happy', className }: {
-  size?: number
-  color?: string
-  mood?: Mood
-  className?: string
-}) {
-  const arc = (x: number) => <path d={`M${x - 7} 54 Q${x} 46 ${x + 7} 54`} stroke={INK} strokeWidth="4" fill="none" strokeLinecap="round" />
-  const eye = (x: number) => (
-    <>
-      <ellipse cx={x} cy="52" rx="5.5" ry="8" fill={INK} />
-      <circle cx={x + 2} cy="49" r="2" fill="#fff" />
-    </>
-  )
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 120 120" aria-hidden="true">
-      <circle cx="60" cy="60" r="56" fill={color} stroke={INK} strokeWidth="5" />
-      <circle cx="60" cy="60" r="43" fill="#FFF1DA" stroke={INK} strokeWidth="4" />
-      {[[60, 10], [60, 110], [10, 60], [110, 60]].map(([cx, cy]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="4" fill={INK} />)}
-      {mood === 'happy' && <>{eye(45)}{eye(75)}</>}
-      {mood === 'grin' && <>{arc(45)}{arc(75)}</>}
-      {mood === 'wink' && <>{eye(45)}{arc(75)}</>}
-      <ellipse cx="34" cy="68" rx="7" ry="4.5" fill="#FF9AAE" />
-      <ellipse cx="86" cy="68" rx="7" ry="4.5" fill="#FF9AAE" />
-      {mood === 'wink'
-        ? <path d="M49 70 Q60 80 71 70" stroke={INK} strokeWidth="3.5" fill="none" strokeLinecap="round" />
-        : <path d="M47 67 Q60 87 73 67 Z" fill="#C42A1E" stroke={INK} strokeWidth="3" strokeLinejoin="round" />}
-    </svg>
-  )
-}
 
 export function Star({ size = 24, fill = '#F4C430', className, style }: {
   size?: number
