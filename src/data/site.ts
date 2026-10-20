@@ -24,7 +24,8 @@ export const profile: Profile = {
     'Taiko no Tatsujin, Project Sekai, FFXIV, Arknights, Wuthering Waves and Touhou.',
   email: 'barry.yang.us@outlook.com',
   socials: [
-    { label: 'Instagram', url: 'https://www.instagram.com/kirisamevanilla/' },
+    { label: 'Instagram', url: 'https://www.instagram.com/spark_barry/' },
+    { label: 'Twitter', url: 'https://x.com/spark_barry' },
     { label: 'GitHub', url: 'https://github.com/KirisameVanilla' },
     { label: 'Bilibili', url: 'https://space.bilibili.com/5198313' },
   ],
