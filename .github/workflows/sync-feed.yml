@@ -1,4 +1,5 @@
 name: Sync social feed
+# Pulls Instagram posts into public/feed (see README).
 
 on:
   schedule:
