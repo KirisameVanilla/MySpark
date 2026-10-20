@@ -1,7 +1,9 @@
 export type TabId = 'home' | 'profile' | 'resume' | 'projects' | 'feed'
 
 export interface Profile {
-  name: string
+  handle: string
+  realName: string
+  nickname: string
   avatar: string
   greeting: string
   tagline: string

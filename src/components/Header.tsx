@@ -8,7 +8,7 @@ export function Header({ tab }: { tab: TabId }) {
       <nav className="container" aria-label="Site sections">
         <a className="brand" href="#/">
           <img src={profile.avatar} alt="" />
-          <span>{profile.name}</span>
+          <span>{profile.handle}</span>
         </a>
         <div className="tabs">
           {TABS.map((t) => (

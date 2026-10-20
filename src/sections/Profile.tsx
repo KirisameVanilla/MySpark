@@ -7,7 +7,7 @@ export function Profile() {
       <SectionHead fileNo="FILE 01" title="Character Sheet" id="profile-title" />
       <div className="profile">
         <div className="profile-pic tone-lav">
-          <img src={profile.avatar} alt={`Illustrated avatar of ${profile.name}`} />
+          <img src={profile.avatar} alt={`Illustrated avatar of ${profile.nickname}`} />
         </div>
         <div className="profile-cards">
           <div className="panel">

@@ -26,3 +26,4 @@ dist-ssr
 # secrets
 .env*
 .ig-token
+.claude/launch.json

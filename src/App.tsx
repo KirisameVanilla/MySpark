@@ -6,7 +6,7 @@ import { Profile } from './sections/Profile'
 import { Resume } from './sections/Resume'
 import { Projects } from './sections/Projects'
 import { Feed } from './sections/Feed'
-import { profile } from './data/site'
+import { fullName, profile } from './data/site'
 import { TABS, useHashTab } from './useHashTab'
 
 const sections = { home: Home, profile: Profile, resume: Resume, projects: Projects, feed: Feed }
@@ -17,7 +17,8 @@ export default function App() {
 
   useEffect(() => {
     const t = TABS.find((x) => x.id === tab)!
-    document.title = tab === 'home' ? profile.name : `${t.title} · ${profile.name}`
+    const site = `${fullName} · ${profile.handle}`
+    document.title = tab === 'home' ? site : `${t.title} · ${site}`
   }, [tab])
 
   return (

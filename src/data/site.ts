@@ -3,7 +3,9 @@
 import type { Episode, Profile, Project } from '../types'
 
 export const profile: Profile = {
-  name: 'KirisameVanilla',
+  handle: 'KirisameVanilla',
+  realName: 'Chengwen Yang',
+  nickname: 'Barry',
   avatar: '/avatar.jpg',
   greeting: 'Yo! Welcome to my page ☆',
   tagline: 'CS grad student at NYU. I build rhythm-game tools, game plugins and web apps.',
@@ -11,6 +13,8 @@ export const profile: Profile = {
   // Set to '/resume.pdf' (and add public/resume.pdf) to show the download buttons.
   resumePdf: undefined,
   basics: [
+    { label: 'Name', value: 'Chengwen (Barry) Yang' },
+    { label: 'Handle', value: 'KirisameVanilla' },
     { label: 'Role', value: 'MSCS student @ NYU' },
     { label: 'Based in', value: 'New York' },
     { label: 'Languages', value: 'Chinese, English, learning Japanese' },
@@ -25,6 +29,9 @@ export const profile: Profile = {
     { label: 'Bilibili', url: 'https://space.bilibili.com/5198313' },
   ],
 }
+
+// "Chengwen (Barry) Yang" — nickname in parentheses after the given name.
+export const fullName = profile.realName.replace(' ', ` (${profile.nickname}) `)
 
 // Newest first.
 export const episodes: Episode[] = [

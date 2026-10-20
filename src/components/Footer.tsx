@@ -25,7 +25,7 @@ export function Footer() {
           </div>
         </div>
         <div className="bottom">
-          <span>© {year} {profile.name}</span>
+          <span>© {year} {profile.realName}</span>
           <span>— To be continued —</span>
         </div>
       </div>
