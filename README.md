@@ -16,7 +16,7 @@ npm run build      # static output in dist/
 | Name, intro, skills, contacts, résumé, projects | `src/data/site.ts` |
 | Colors, fonts, layout | `src/index.css` (tokens at the top) |
 | Avatar | `public/avatar.jpg` |
-| Résumé PDF | put it at `public/resume.pdf` |
+| Résumé PDF | put it at `public/resume.pdf` and set `resumePdf: '/resume.pdf'` (buttons stay hidden until then) |
 | Project screenshots | put in `public/projects/` and set `cover: '/projects/x.jpg'` |
 
 Tabs live in the URL hash (`/#/projects`), so every tab can be linked to directly and Back works.
@@ -42,11 +42,26 @@ The site only reads that JSON — no tokens ever reach the browser.
 `.github/workflows/sync-feed.yml` then runs every 6 hours (or on demand from the Actions tab),
 refreshes the token, and commits the new `feed.json` — your host (Vercel / Cloudflare Pages) redeploys on that commit.
 
-### Other platforms
+### Bilibili and other platforms
 
-Add a fetcher in `scripts/sync-feed.ts` (see the `sources` map). Posts from a source without a
-fetcher are kept as-is, so you can also hand-add entries to `feed.json`.
-The bundled `sample-*` posts are removed automatically after the first successful sync.
+Bilibili has no official API for listing a user's uploads, and its web API blocks scripts,
+so those posts are listed by hand in `content/manual-posts.json`:
+
+```json
+[
+  {
+    "source": "Bilibili",
+    "date": "2026-10-01T12:00:00+08:00",
+    "text": "Video title",
+    "url": "https://www.bilibili.com/video/BV...",
+    "image": "/feed/manual/cover.jpg"
+  }
+]
+```
+
+`image` is optional (put the file in `public/feed/manual/`). Pushing a change to this file
+runs the sync workflow, which merges it into `feed.json`.
+Platforms with a real API can get a fetcher in `scripts/sync-feed.ts` (see the `sources` map).
 
 ## Deploy
 

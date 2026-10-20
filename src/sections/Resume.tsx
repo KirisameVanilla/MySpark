@@ -7,9 +7,11 @@ export function Resume() {
   return (
     <section aria-labelledby="resume-title">
       <SectionHead fileNo="FILE 02" title="Episode Guide" id="resume-title">
-        <a href={profile.resumePdf} download style={{ fontWeight: 700, padding: '12px 0' }}>
-          Full résumé (PDF) →
-        </a>
+        {profile.resumePdf && (
+          <a href={profile.resumePdf} download style={{ fontWeight: 700, padding: '12px 0' }}>
+            Full résumé (PDF) →
+          </a>
+        )}
       </SectionHead>
       <ol className="episodes">
         {episodes.map((ep, i) => (

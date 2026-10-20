@@ -124,7 +124,7 @@ main.container { flex: 1; padding-block: 40px 72px; }
 }
 .hero h1 .name {
   display: inline-block; max-width: 100%; background: var(--accent); border: 3px solid var(--ink);
-  padding: 4px 16px 8px; line-height: 1.1; overflow-wrap: anywhere;
+  padding: 4px 16px 8px; line-height: 1.1; overflow-wrap: break-word;
 }
 .hero .tagline { margin: 0; font-size: 19px; line-height: 1.6; max-width: 560px; font-weight: 500; }
 .hero .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }

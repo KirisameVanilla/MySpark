@@ -92,7 +92,8 @@ async function fetchInstagram(): Promise<FeedPost[]> {
 // Each fetcher returns FeedPost[] for one source. Register it below.
 const sources: Partial<Record<FeedSource, () => Promise<FeedPost[]>>> = {
   Instagram: fetchInstagram,
-  // Bilibili: fetchBilibili,
+  // Bilibili has no official API for this and its web API blocks scripts, so
+  // Bilibili posts are listed by hand in content/manual-posts.json instead.
 }
 
 // ---------- helpers ----------
@@ -110,6 +111,14 @@ async function saveImage(name: string, url: string): Promise<string | undefined>
     console.warn(`[image] could not save ${name}: ${e}`)
     return undefined
   }
+}
+
+const MANUAL_PATH = path.resolve('content/manual-posts.json')
+
+async function readManual(): Promise<FeedPost[]> {
+  if (!existsSync(MANUAL_PATH)) return []
+  const posts = JSON.parse(await readFile(MANUAL_PATH, 'utf8')) as Omit<FeedPost, 'id'>[]
+  return posts.map((p) => ({ ...p, id: `manual-${p.url}` }))
 }
 
 async function readPrevious(): Promise<FeedFile> {
@@ -138,9 +147,8 @@ async function main() {
     }
   }
 
-  // Keep posts from sources that have no fetcher (e.g. hand-added ones).
-  const fetched = new Set(Object.keys(sources))
-  merged.push(...prev.posts.filter((p) => !fetched.has(p.source)))
+  // Hand-maintained posts (e.g. Bilibili videos) from content/manual-posts.json.
+  merged.push(...(await readManual()))
 
   // The repo ships with placeholder posts; drop them once real data arrives.
   if (anyOk) {

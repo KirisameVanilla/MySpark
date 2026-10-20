@@ -6,7 +6,7 @@ export interface Profile {
   greeting: string
   tagline: string
   status: string
-  resumePdf: string
+  resumePdf?: string
   basics: { label: string; value: string }[]
   skills: string[]
   favorites: string

@@ -8,6 +8,9 @@ const shortcuts = [
   { href: tabHref('feed'), no: 'FILE 04', label: 'Latest posts', hint: 'From Instagram & more' },
 ]
 
+// Allow a line break between camelCase words ("Kirisame|Vanilla") instead of mid-word.
+const breakableName = profile.name.replace(/([a-z])([A-Z])/g, '$1\u200B$2')
+
 export function Home() {
   return (
     <section aria-label="Home">
@@ -16,16 +19,18 @@ export function Home() {
           <p className="bubble">{profile.greeting}</p>
           <h1>
             <span>Hi, I'm</span>
-            <span className="name">{profile.name}</span>
+            <span className="name">{breakableName}</span>
           </h1>
           <p className="tagline">{profile.tagline}</p>
           <div className="actions">
             <a className="btn dark" href={tabHref('projects')}>
               See my projects <ArrowRight />
             </a>
-            <a className="btn" href={profile.resumePdf} download>
-              <Download /> Résumé PDF
-            </a>
+            {profile.resumePdf && (
+              <a className="btn" href={profile.resumePdf} download>
+                <Download /> Résumé PDF
+              </a>
+            )}
           </div>
           <span className="sfx" aria-hidden="true">!!</span>
         </div>
