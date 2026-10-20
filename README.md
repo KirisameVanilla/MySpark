@@ -17,6 +17,7 @@ npm run build      # static output in dist/
 | Colors, fonts, layout | `src/index.css` (tokens at the top) |
 | Avatar | `public/avatar.jpg` |
 | Résumé PDF | put it at `public/resume.pdf` and set `resumePdf: '/resume.pdf'` (buttons stay hidden until then) |
+| Header lane art (notes, drum, judge circle, backgrounds) | `public/lane/`, from OurTaikoPlay by OurTaiko |
 | Project screenshots | put in `public/projects/` and set `cover: '/projects/x.jpg'` |
 
 Tabs live in the URL hash (`/#/projects`), so every tab can be linked to directly and Back works.

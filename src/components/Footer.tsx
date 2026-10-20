@@ -32,7 +32,8 @@ export function Footer() {
             このコンテンツはファンメイドコンテンツです — made under the{' '}
             <a href="https://taiko-ch.net/ip_policy/" target="_blank" rel="noreferrer">Taiko no Tatsujin fan-made content policy</a>.
             Taiko no Tatsujin © Bandai Namco Entertainment Inc. · Wuthering Waves © Kuro Games · Touhou Project © Team Shanghai Alice.
-            Character motifs on this site are original fan drawings, not official art.
+            Header lane art from <a href="https://github.com/OurTaiko/OurTaikoPlay" target="_blank" rel="noreferrer">OurTaikoPlay</a> by OurTaiko;
+            other character motifs are original fan drawings, not official art.
           </span>
         </div>
       </div>

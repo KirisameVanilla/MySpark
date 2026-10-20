@@ -13,8 +13,8 @@ const NOTE_KIND: Record<TabId, NoteKind> = {
   feed: 'don',
 }
 
-// Laid out like OurTaikoPlay's play screen: festival strip with the "song title",
-// then the player panel (nameplate + drum) beside the note lane and its label rail.
+// OurTaikoPlay's play screen: festival strip with the "song title", then the
+// player panel (nameplate + drum) beside the note lane and its label rail.
 export function Header({ tab }: { tab: TabId }) {
   const [hover, setHover] = useState<NoteKind | null>(null)
   const current = TABS.find((t) => t.id === tab)!
@@ -54,7 +54,7 @@ export function Header({ tab }: { tab: TabId }) {
                   onFocus={() => setHover(NOTE_KIND[t.id])}
                   onBlur={() => setHover(null)}
                 >
-                  <span className="disc"><FaceNote kind={NOTE_KIND[t.id]} size={on ? 84 : 60} /></span>
+                  <span className="disc"><FaceNote kind={NOTE_KIND[t.id]} big={on} /></span>
                   <span className="lane-label">{t.label}</span>
                 </a>
               )
