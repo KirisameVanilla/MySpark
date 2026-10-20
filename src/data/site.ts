@@ -96,21 +96,4 @@ export const projects: Project[] = [
     tags: ['TypeScript'],
     repoUrl: 'https://github.com/KirisameVanilla/MajdataHub',
   },
-  {
-    title: 'maimai Score Pic Generator',
-    cover: '/projects/maimai-score-pic.jpg',
-    category: 'Tool',
-    description: 'Generates cover images and score cards for maimai DX handcam videos.',
-    tags: ['Python'],
-    repoUrl: 'https://github.com/KirisameVanilla/MaimaiScorePicGenerator',
-  },
-  {
-    title: 'Arknights Collectibles Helper',
-    cover: '/projects/arknights-helper.jpg',
-    category: 'Web',
-    description: 'Collectibles index for Arknights Integrated Strategies.',
-    tags: ['TypeScript'],
-    detailsUrl: 'https://solitaire.arknights.vanillaaaa.org',
-    repoUrl: 'https://github.com/KirisameVanilla/ArknightsSolitaireCollectiblesHelper',
-  },
 ]
