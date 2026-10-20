@@ -81,6 +81,15 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/OurTaiko/OurTaikoPlay',
   },
   {
+    title: 'OurTaiko Fanmade Web',
+    cover: '/projects/ourtaiko-fanmade.jpg',
+    category: 'Web',
+    description: 'Community site for sharing fan-made Taiko charts, with a React + TypeScript frontend and a Go + PostgreSQL backend.',
+    tags: ['React', 'TypeScript', 'Go', 'PostgreSQL'],
+    detailsUrl: 'https://fanmade.ourtaiko.org/',
+    repoUrl: 'https://github.com/OurTaiko/FanmadeFrontend',
+  },
+  {
     title: 'MajdataNet',
     cover: '/projects/majdatanet.jpg',
     category: 'Web',
