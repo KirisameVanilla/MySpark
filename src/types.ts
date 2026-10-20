@@ -5,13 +5,13 @@ export interface Profile {
   realName: string
   nickname: string
   avatar: string
-  greeting: string
+  title: string
   tagline: string
   status: string
   resumePdf?: string
   basics: { label: string; value: string }[]
   skills: string[]
-  favorites: string
+  favorites: { label: string; color: string }[]
   email: string
   socials: { label: string; url: string }[]
 }
@@ -23,6 +23,8 @@ export interface Episode {
   kind: 'Work' | 'Internship' | 'Education' | 'Other'
   org: string
   description: string
+  /** Spell-card style label shown above the title, e.g. "Study Sign". */
+  sign: string
 }
 
 export type ProjectCategory = 'Web' | 'Game' | 'Tool'
@@ -33,6 +35,8 @@ export interface Project {
   description: string
   tags: string[]
   cover?: string
+  /** GitHub stars, shown on the song-select list (omit for new repos). */
+  stars?: number
   detailsUrl?: string
   repoUrl?: string
 }

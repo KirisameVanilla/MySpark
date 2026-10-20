@@ -3,9 +3,9 @@ import type { TabId } from './types'
 
 export const TABS: { id: TabId; no: string; label: string; title: string }[] = [
   { id: 'home', no: '00', label: 'Home', title: 'Home' },
-  { id: 'profile', no: '01', label: 'Profile', title: 'Character Sheet' },
-  { id: 'resume', no: '02', label: 'Résumé', title: 'Episode Guide' },
-  { id: 'projects', no: '03', label: 'Projects', title: 'Projects' },
+  { id: 'profile', no: '01', label: 'Profile', title: 'Player Select' },
+  { id: 'resume', no: '02', label: 'Résumé', title: 'Spell Card History' },
+  { id: 'projects', no: '03', label: 'Projects', title: 'Song Select' },
   { id: 'feed', no: '04', label: 'Feed', title: 'Latest Posts' },
 ]
 

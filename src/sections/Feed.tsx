@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
-import { SectionHead } from '../components/SectionHead'
+import { useState } from 'react'
 import { FilterPills } from '../components/FilterPills'
-import type { FeedFile, FeedPost, FeedSource } from '../types'
+import { PostCard } from '../components/PostCard'
+import type { FeedSource } from '../types'
+import { fmtDate, useFeed } from '../useFeed'
 
 type Filter = 'all' | FeedSource
 
@@ -11,34 +12,21 @@ const filters: { id: Filter; label: string }[] = [
   { id: 'X', label: 'X' },
   { id: 'Bilibili', label: 'Bilibili' },
 ]
-const srcColor: Record<FeedSource, string> = { Instagram: 'var(--ig)', X: 'var(--x)', Bilibili: 'var(--bili)' }
-const tints = ['var(--tint-1)', 'var(--tint-2)', 'var(--tint-3)', 'var(--tint-4)']
 const PAGE = 12
 
-const fmtDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-
 export function Feed() {
-  const [data, setData] = useState<FeedFile | null>(null)
-  const [error, setError] = useState(false)
+  const { data, error } = useFeed()
   const [filter, setFilter] = useState<Filter>('all')
   const [limit, setLimit] = useState(PAGE)
 
-  // feed.json is written by scripts/sync-feed.ts (run on a schedule in CI).
-  useEffect(() => {
-    fetch('/feed/feed.json', { cache: 'no-cache' })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((d: FeedFile) => setData(d))
-      .catch(() => setError(true))
-  }, [])
-
-  const all: FeedPost[] = data?.posts ?? []
+  const all = data?.posts ?? []
   const filtered = filter === 'all' ? all : all.filter((p) => p.source === filter)
   const shown = filtered.slice(0, limit)
 
   return (
     <section aria-labelledby="feed-title">
-      <SectionHead fileNo="FILE 04" title="Latest Posts" id="feed-title">
+      <div className="page-head">
+        <h1 id="feed-title">Latest posts</h1>
         <FilterPills
           label="Filter by platform"
           options={filters}
@@ -48,8 +36,8 @@ export function Feed() {
             setLimit(PAGE)
           }}
         />
-      </SectionHead>
-      <p className="feed-meta">
+      </div>
+      <p style={{ margin: '-14px 0 26px', fontSize: 14, fontWeight: 700, color: 'var(--ink-2)' }}>
         {data?.updatedAt ? `Synced automatically · last updated ${fmtDate(data.updatedAt)}` : 'Synced automatically'}
       </p>
 
@@ -57,33 +45,16 @@ export function Feed() {
       {!error && !data && <p className="empty" aria-live="polite">Loading…</p>}
       {data && shown.length === 0 && <p className="empty">No posts here yet.</p>}
 
-      <ul className="grid-feed">
-        {shown.map((p, i) => (
-          <li key={p.id}>
-            <article className="post card">
-              <header>
-                <span className="src" style={{ background: srcColor[p.source] }}>{p.source}</span>
-                <time dateTime={p.date}>{fmtDate(p.date)}</time>
-              </header>
-              <div className="media tone" style={{ backgroundColor: tints[i % tints.length] }}>
-                {p.image ? (
-                  <img src={p.image} alt="" loading="lazy" />
-                ) : (
-                  <span className="placeholder-label">{p.source}</span>
-                )}
-              </div>
-              <div className="body">
-                {p.text && <p>{p.text}</p>}
-                <a href={p.url} target="_blank" rel="noreferrer">View on {p.source} →</a>
-              </div>
-            </article>
-          </li>
+      <ul className="post-grid">
+        {shown.map((p) => (
+          <li key={p.id}><PostCard post={p} /></li>
         ))}
       </ul>
 
       {filtered.length > limit && (
         <div className="more">
-          <button type="button" className="btn" onClick={() => setLimit((n) => n + PAGE)}>
+          <button type="button" className="pill-btn don" onClick={() => setLimit((n) => n + PAGE)}>
+            <span className="kana" aria-hidden="true">ドン</span>
             Load more
           </button>
         </div>

@@ -1,31 +1,30 @@
 import { episodes, profile } from '../data/site'
-import { SectionHead } from '../components/SectionHead'
 
-const tints = ['var(--tint-1)', 'var(--tint-2)', 'var(--tint-3)', 'var(--tint-4)']
+const COLORS = ['var(--g-purple)', 'var(--g-green)', 'var(--ka)', 'var(--g-orange)']
 
 export function Resume() {
   return (
     <section aria-labelledby="resume-title">
-      <SectionHead fileNo="FILE 02" title="Episode Guide" id="resume-title">
-        {profile.resumePdf && (
-          <a href={profile.resumePdf} download style={{ fontWeight: 700, padding: '12px 0' }}>
-            Full résumé (PDF) →
-          </a>
+      <div className="page-head">
+        <h1 id="resume-title">Spell card history</h1>
+        {profile.resumePdf ? (
+          <a className="meta" href={profile.resumePdf} download>Full résumé (PDF) →</a>
+        ) : (
+          <span className="meta">Newest first</span>
         )}
-      </SectionHead>
-      <ol className="episodes">
+      </div>
+      <ol className="spellcards">
         {episodes.map((ep, i) => (
-          <li key={ep.no} className="panel episode">
-            <div className="ep-no tone" style={{ backgroundColor: tints[i % tints.length] }}>
-              <strong>{ep.no}</strong>
-              <span>{ep.period}</span>
+          <li key={ep.no} className="spellcard night-sky">
+            <div className="when" style={{ background: COLORS[i % COLORS.length] }}>
+              <small>{ep.no}</small>
+              <b>{ep.period}</b>
+              <span>{ep.kind}</span>
             </div>
-            <div className="ep-body">
-              <div className="row">
-                <h3>{ep.title}</h3>
-                <span className="kind">{ep.kind}</span>
-              </div>
-              <div className="org">{ep.org}</div>
+            <div className="what">
+              <span className="sign">{ep.sign}</span>
+              <h3>「{ep.title}」</h3>
+              <span className="org">{ep.org}</span>
               <p>{ep.description}</p>
             </div>
           </li>

@@ -1,32 +1,39 @@
 import { profile } from '../data/site'
+import { GlassShards, SpiderLily } from './Art'
 import { Mail } from './Icons'
 
 const year = new Date().getFullYear()
 
+// "Curtain call" — Phrolova's crimson elegy, shown on every page.
 export function Footer() {
   return (
-    <footer className="site-footer tone-lav">
-      <div className="container">
-        <div className="top">
-          <div>
-            <div className="kicker">NEXT EPISODE —</div>
-            <h2>Let's write it together.</h2>
-          </div>
-          <div className="links">
-            <a className="btn dark" href={`mailto:${profile.email}`}>
-              <Mail />
-              {profile.email}
+    <footer className="curtain">
+      <div className="staff-lines" aria-hidden="true" />
+      <GlassShards className="shards" />
+      <SpiderLily className="lily-a" />
+      <SpiderLily className="lily-b" />
+      <div className="container inner">
+        <span className="kicker">CURTAIN CALL</span>
+        <h2>Let's play the next piece together.</h2>
+        <div className="links">
+          <a className="elegy-btn solid" href={`mailto:${profile.email}`}>
+            <Mail />
+            {profile.email}
+          </a>
+          {profile.socials.map((s) => (
+            <a key={s.label} className="elegy-btn" href={s.url} target="_blank" rel="noreferrer">
+              {s.label}
             </a>
-            {profile.socials.map((s) => (
-              <a key={s.label} className="btn" href={s.url} target="_blank" rel="noreferrer">
-                {s.label}
-              </a>
-            ))}
-          </div>
+          ))}
         </div>
-        <div className="bottom">
-          <span>© {year} {profile.realName}</span>
-          <span>— To be continued —</span>
+        <div className="fine">
+          <b>© {year} {profile.realName} · Unofficial fan site</b>
+          <span>
+            このコンテンツはファンメイドコンテンツです — made under the{' '}
+            <a href="https://taiko-ch.net/ip_policy/" target="_blank" rel="noreferrer">Taiko no Tatsujin fan-made content policy</a>.
+            Taiko no Tatsujin © Bandai Namco Entertainment Inc. · Wuthering Waves © Kuro Games · Touhou Project © Team Shanghai Alice.
+            Character motifs on this site are original fan drawings, not official art.
+          </span>
         </div>
       </div>
     </footer>
