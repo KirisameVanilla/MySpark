@@ -10,6 +10,9 @@ const BULLETS: [string, string, number, string][] = [
   ['2%', '52%', 22, '#3FB8D6'], ['78%', '82%', 30, '#FF9AAE'], ['44%', '-2%', 20, '#F4C430'],
 ]
 
+// Star bullets riding the Master Spark beam: [left, size]
+const SPARK_STARS: [string, number][] = [['12%', 18], ['31%', 26], ['52%', 16], ['70%', 24], ['88%', 18]]
+
 export function Home() {
   const { data } = useFeed()
   const posts = data?.posts ?? []
@@ -72,7 +75,11 @@ export function Home() {
 
       <div className="spark" aria-hidden="true">
         <Hakkero />
-        <div className="beam"><i /><i /><i /><i /><i /></div>
+        <div className="beam">
+          {SPARK_STARS.map(([left, size]) => (
+            <Star key={left} className="star" size={size} fill="#FFFFFF" style={{ left }} />
+          ))}
+        </div>
       </div>
       <p className="spark-caption">Love Sign 「Master Spark」 — choose a course</p>
 

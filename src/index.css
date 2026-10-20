@@ -221,15 +221,13 @@ main.container { flex: 1; padding-block: 48px 0; }
 .spark { margin: 72px -20px 0; display: flex; align-items: center; }
 .spark svg { flex: none; margin-left: 20px; position: relative; z-index: 1; }
 .spark .beam {
-  flex: 1; height: 54px; margin-left: -8px; border-radius: 0 40px 40px 0; overflow: hidden;
-  display: flex; flex-direction: column; border: 3px solid var(--ink); border-left: 0;
+  /* Master Spark: one wide white laser with a gold glow, star bullets riding along it */
+  flex: 1; position: relative; height: 58px; margin-left: -8px; border-radius: 0 40px 40px 0;
+  border: 3px solid var(--ink); border-left: 0; overflow: hidden;
+  background: linear-gradient(180deg, #f4c430 0%, #ffe48a 16%, #fffbea 36%, #ffffff 50%, #fffbea 64%, #ffe48a 84%, #f4c430 100%);
+  box-shadow: 0 0 18px rgba(244, 196, 48, .55);
 }
-.spark .beam i { flex: 1; }
-.spark .beam i:nth-child(1) { background: var(--g-purple); }
-.spark .beam i:nth-child(2) { background: var(--ka); }
-.spark .beam i:nth-child(3) { background: #fffdf5; flex: 2; }
-.spark .beam i:nth-child(4) { background: var(--star); }
-.spark .beam i:nth-child(5) { background: var(--g-pink); }
+.spark .beam .star { position: absolute; top: 50%; translate: 0 -50%; }
 .spark-caption { margin: 10px 0 0; text-align: right; font-family: var(--serif); font-weight: 800; font-size: 15px; color: var(--ink-2); }
 
 /* ---------- course select ---------- */
