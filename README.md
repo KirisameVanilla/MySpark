@@ -1,4 +1,4 @@
-# Anime-style personal site
+# MySpark
 
 Vite + React + TypeScript. Manga-panel look, tabbed sections (Home / Profile / Résumé / Projects / Feed),
 and a social feed synced from Instagram on a schedule.
