@@ -49,6 +49,8 @@ export interface FeedPost {
   date: string // ISO 8601
   text: string
   image?: string
+  images?: { url: string; fromQuote?: boolean }[]
+  imageFromQuote?: boolean
   url: string
 }
 

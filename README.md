@@ -73,8 +73,13 @@ Any static host works. On Vercel or Cloudflare Pages: build command `npm run bui
 The same scheduled workflow also reads `@spark_barry`'s latest personal timeline
 using `@the-convocation/twitter-scraper@0.22.3`, the library used by Twitter-Scraper.
 It scans up to 100 timeline entries, excludes replies and reposts, verifies the
-post's author, and keeps quote posts. The first photo is copied into the static
-feed; videos and additional photos are available through the original-post link.
+post's author, and keeps quote posts. All attached and quoted-post photos are
+saved locally, with duplicate URLs removed. Each photo retains its attribution;
+quoted images show an “Original post image” badge. Cards show a centered 4:3
+carousel. Clicking a card opens the full text and uncropped photos in a modal,
+with the original-platform link inside the modal. The modal supports previous /
+next controls, arrow keys, Escape, and backdrop dismissal. Old single-image feed
+entries remain compatible. Videos are available through the original-post link.
 The combined feed retains its existing 60-post limit across all platforms.
 
 GitHub repository → Settings → Secrets and variables → Actions:

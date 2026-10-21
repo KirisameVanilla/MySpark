@@ -34,6 +34,27 @@ export function originalPost(tweet: Tweet, username: string): FeedPost | undefin
   }
 }
 
+/** Collect all attached and quoted photos, retaining per-image attribution. */
+export function tweetPhotos(tweet: Tweet): { url: string; fromQuote: boolean }[] {
+  const visited = new Set<Tweet>()
+  const seen = new Set<string>()
+  const photos: { url: string; fromQuote: boolean }[] = []
+  let current: Tweet | undefined = tweet
+  while (current && !visited.has(current)) {
+    visited.add(current)
+    for (const photo of current.photos ?? []) {
+      if (!photo.url || seen.has(photo.url)) continue
+      seen.add(photo.url)
+      photos.push({ url: photo.url, fromQuote: current !== tweet })
+    }
+    current = current.quotedStatus
+  }
+  return photos
+}
+
+export function coverPhotoInfo(tweet: Tweet) { return tweetPhotos(tweet)[0] }
+export function coverPhoto(tweet: Tweet): string | undefined { return coverPhotoInfo(tweet)?.url }
+
 export async function fetchX(
   saveImage: (name: string, url: string) => Promise<string | undefined>,
 ): Promise<FeedPost[]> {
@@ -56,8 +77,19 @@ export async function fetchX(
   for await (const tweet of scraper.getTweets(username, 100)) {
     const post = originalPost(tweet, username)
     if (!post) continue
-    const photo = tweet.photos[0]?.url
-    if (photo) post.image = await saveImage(post.id, photo)
+    const images: NonNullable<FeedPost['images']> = []
+    const photos = tweetPhotos(tweet)
+    for (let index = 0; index < photos.length; index++) {
+      const photo = photos[index]
+      const url = await saveImage(`${post.id}-${index + 1}`, photo.url)
+      if (!url) throw new Error('X photo download failed; retaining previous snapshot')
+      images.push({ url, fromQuote: photo.fromQuote })
+    }
+    if (images.length) {
+      post.images = images
+      post.image = images[0].url
+      post.imageFromQuote = images[0].fromQuote
+    }
     posts.set(post.id, post)
   }
   if (!posts.size) throw new Error('X returned no original posts; keeping previous snapshot')
