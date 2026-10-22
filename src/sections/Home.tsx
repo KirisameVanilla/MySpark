@@ -1,8 +1,6 @@
-import { episodes, profile, projects } from '../data/site'
+import { profile } from '../data/site'
 import { Hakkero, MagicCircle, Star } from '../components/Art'
-import { PostCard } from '../components/PostCard'
 import { tabHref } from '../useHashTab'
-import { useFeed } from '../useFeed'
 
 // Marisa's star bullets around the portrait: [left, top, size, color]
 const BULLETS: [string, string, number, string][] = [
@@ -14,16 +12,6 @@ const BULLETS: [string, string, number, string][] = [
 const SPARK_STARS: [string, number][] = [['12%', 18], ['31%', 26], ['52%', 16], ['70%', 24], ['88%', 18]]
 
 export function Home() {
-  const { data } = useFeed()
-  const posts = data?.posts ?? []
-
-  // Taiko song-select style tiles; the genre names nod to Taiko's song categories.
-  const courses = [
-    { title: 'Résumé', href: tabHref('resume'), color: 'var(--g-orange)', genre: 'CAREER', desc: 'NYU, ECNU and two internships, told as spell cards.', count: episodes.length, unit: 'episodes' },
-    { title: 'Projects', href: tabHref('projects'), color: 'var(--g-green)', genre: 'GAME MUSIC', desc: 'Rhythm-game players, chart sites and an FFXIV plugin.', count: projects.length, unit: 'tracks' },
-    { title: 'Feed', href: tabHref('feed'), color: 'var(--g-pink)', genre: 'ANIME', desc: 'Latest posts from Instagram, plus hand-picked Bilibili videos.', count: posts.length, unit: 'posts' },
-  ]
-
   return (
     <>
       <section className="hero" aria-label="Introduction">
@@ -81,39 +69,7 @@ export function Home() {
           ))}
         </div>
       </div>
-      <p className="spark-caption">Love Sign 「Master Spark」 — choose a course</p>
-
-      <section className="courses" aria-labelledby="courses-title">
-        <div className="page-head">
-          <h2 id="courses-title">Course select</h2>
-        </div>
-        <div className="course-grid">
-          {courses.map((c) => (
-            <a key={c.title} className="course" href={c.href}>
-              <span className="spine" style={{ background: c.color }}><span>{c.title}</span></span>
-              <span className="body">
-                <span className="genre" style={{ color: c.color }}>{c.genre}</span>
-                <span className="desc">{c.desc}</span>
-                <span className="count"><b>{c.count}</b><small>{c.unit}</small></span>
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      {posts.length > 0 && (
-        <section aria-labelledby="latest-title" style={{ marginTop: 88 }}>
-          <div className="page-head">
-            <h2 id="latest-title">Latest posts</h2>
-            <a className="meta" href={tabHref('feed')}>See all →</a>
-          </div>
-          <ul className="post-grid">
-            {posts.slice(0, 3).map((p) => (
-              <li key={p.id}><PostCard post={p} /></li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <p className="spark-caption">Love Sign 「Master Spark」</p>
     </>
   )
 }

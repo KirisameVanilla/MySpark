@@ -3,10 +3,10 @@ import type { TabId } from './types'
 
 export const TABS: { id: TabId; no: string; label: string; title: string }[] = [
   { id: 'home', no: '00', label: 'Home', title: 'Home' },
-  { id: 'profile', no: '01', label: 'Profile', title: 'Player Select' },
-  { id: 'resume', no: '02', label: 'Résumé', title: 'Spell Card History' },
-  { id: 'projects', no: '03', label: 'Projects', title: 'Song Select' },
-  { id: 'feed', no: '04', label: 'Feed', title: 'Latest Posts' },
+  { id: 'feed', no: '01', label: 'Feed', title: 'Latest Posts' },
+  { id: 'profile', no: '02', label: 'Profile', title: 'Player Select' },
+  { id: 'resume', no: '03', label: 'Résumé', title: 'Spell Card History' },
+  { id: 'projects', no: '04', label: 'Projects', title: 'Song Select' },
 ]
 
 const ids = new Set<string>(TABS.map((t) => t.id))
