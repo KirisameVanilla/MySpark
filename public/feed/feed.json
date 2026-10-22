@@ -1,33 +1,6 @@
 {
-  "updatedAt": "2026-10-21T23:16:10.206Z",
+  "updatedAt": "2026-10-22T04:56:38.913Z",
   "posts": [
-    {
-      "id": "x-2112911997859700822",
-      "source": "X",
-      "date": "2026-10-21T14:20:50.000Z",
-      "text": "No matter how many times I see Mount Fuji, it always leaves me in awe",
-      "url": "https://x.com/spark_barry/status/2112911997859700822",
-      "images": [
-        {
-          "url": "/feed/images/x-2112911997859700822-1.jpg",
-          "fromQuote": true
-        },
-        {
-          "url": "/feed/images/x-2112911997859700822-2.jpg",
-          "fromQuote": true
-        },
-        {
-          "url": "/feed/images/x-2112911997859700822-3.jpg",
-          "fromQuote": true
-        },
-        {
-          "url": "/feed/images/x-2112911997859700822-4.jpg",
-          "fromQuote": true
-        }
-      ],
-      "image": "/feed/images/x-2112911997859700822-1.jpg",
-      "imageFromQuote": true
-    },
     {
       "id": "x-2112708948864192737",
       "source": "X",
